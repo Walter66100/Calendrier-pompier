@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trésorerie Pompiers</title>
+    <title>Calendrier Pompiers</title>
 
     <!-- iPhone / iPad : icône écran d'accueil -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Trésorerie">
+    <meta name="apple-mobile-web-app-title" content="Calendrier">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#1a0000">
 
@@ -568,55 +568,56 @@
         @media print {
             #pin-screen, .actions, .charts-section, .help-section, .lock-btn, select, .note-btn, .note-row, .no-print, #install-banner { display: none !important; }
 
-            * { 
-                background: white !important; 
-                color: black !important;
-                border-color: #ccc !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
+            body { background: white !important; color: black !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            #app { display: block !important; padding: 0 !important; background: white !important; }
 
-            body { background: white !important; color: black !important; }
-            #app { display: block !important; padding: 0 !important; }
-
+            /* En-tête rouge avec titre blanc bien visible */
             .header { 
-                background: #c0392b !important; 
-                color: white !important;
+                background: #c0392b !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
+                border-radius: 8px !important;
+                padding: 16px !important;
+                margin-bottom: 12px !important;
             }
-            .header h1, .header p, #periode-label { color: white !important; }
+            .header h1 { 
+                color: white !important; 
+                font-size: 22px !important;
+                -webkit-print-color-adjust: exact;
+            }
+            .header p, #periode-label { color: rgba(255,255,255,0.85) !important; }
+            .header-right { display: none !important; }
 
-            .kpi-card { 
-                background: #f8f8f8 !important; 
-                border: 1px solid #ccc !important;
-            }
+            /* KPI cards */
+            .kpi-row { display: grid !important; grid-template-columns: repeat(3,1fr) !important; gap: 8px !important; margin-bottom: 12px !important; }
+            .kpi-card { background: #f8f8f8 !important; border: 1px solid #ddd !important; border-radius: 8px !important; }
+            .kpi-card::before { display: none !important; }
             .kpi-label { color: #555 !important; }
             .kpi-value { color: #111 !important; }
             .kpi-value.pos { color: #1a6b3a !important; }
             .kpi-value.neg { color: #c0392b !important; }
 
+            /* Tableau */
+            .table-container { border: 1px solid #ccc !important; border-radius: 8px !important; background: white !important; }
             .grid-header { 
-                background: #c0392b !important; 
-                color: white !important;
+                background: #c0392b !important;
                 -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
             .grid-header div { color: white !important; }
 
             .row { background: white !important; border-bottom: 1px solid #eee !important; }
-            .row:nth-child(even) { background: #f9f9f9 !important; }
-
-            .total-row { 
-                background: #f0f0f0 !important; 
-                border-top: 2px solid #c0392b !important;
-            }
-            .total-label { color: #c0392b !important; }
-
+            .row:nth-child(even) > div { background: #fafafa !important; }
             .sector-name-text { color: #111 !important; }
             .positive { color: #1a6b3a !important; }
             .negative { color: #c0392b !important; }
 
-            .table-container { border: 1px solid #ccc !important; }
+            .total-row { 
+                background: #f0f0f0 !important;
+                -webkit-print-color-adjust: exact;
+                border-top: 2px solid #c0392b !important;
+            }
+            .total-label { color: #c0392b !important; }
 
             input[type="number"] { display: none !important; }
             .print-val { display: inline !important; color: black !important; }
@@ -643,7 +644,7 @@
 <!-- ======= ÉCRAN PIN ======= -->
 <div id="pin-screen">
     <div class="pin-logo">🚒</div>
-    <div class="pin-title">Trésorerie Pompiers</div>
+    <div class="pin-title">Calendrier Pompiers</div>
     <div class="pin-subtitle" id="pin-subtitle">ENTREZ VOTRE CODE PIN</div>
     <div class="pin-dots" id="pin-dots"></div>
     <div class="pin-keypad" id="pin-keypad"></div>
@@ -700,7 +701,7 @@
 <div id="app">
     <div class="header">
         <div class="header-left">
-            <h1>🚒 Trésorerie Pompiers</h1>
+            <h1>🚒 Calendrier Pompiers</h1>
             <p id="periode-label">Période en cours</p>
         </div>
         <div class="header-right">
