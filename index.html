@@ -566,14 +566,60 @@
 
         /* Print */
         @media print {
-            #pin-screen, .actions, .charts-section, .help-section, .lock-btn, select, .note-btn, .note-row, .no-print { display: none !important; }
-            body { background: white; color: black; }
-            #app { display: block !important; }
-            .header { background: #c0392b !important; -webkit-print-color-adjust: exact; }
-            .table-container, .kpi-card { border: 1px solid #ccc; }
-            .surface { background: white; }
-            input[type="number"] { display: none; }
-            .print-val { display: inline !important; }
+            #pin-screen, .actions, .charts-section, .help-section, .lock-btn, select, .note-btn, .note-row, .no-print, #install-banner { display: none !important; }
+
+            * { 
+                background: white !important; 
+                color: black !important;
+                border-color: #ccc !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            body { background: white !important; color: black !important; }
+            #app { display: block !important; padding: 0 !important; }
+
+            .header { 
+                background: #c0392b !important; 
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .header h1, .header p, #periode-label { color: white !important; }
+
+            .kpi-card { 
+                background: #f8f8f8 !important; 
+                border: 1px solid #ccc !important;
+            }
+            .kpi-label { color: #555 !important; }
+            .kpi-value { color: #111 !important; }
+            .kpi-value.pos { color: #1a6b3a !important; }
+            .kpi-value.neg { color: #c0392b !important; }
+
+            .grid-header { 
+                background: #c0392b !important; 
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+            }
+            .grid-header div { color: white !important; }
+
+            .row { background: white !important; border-bottom: 1px solid #eee !important; }
+            .row:nth-child(even) { background: #f9f9f9 !important; }
+
+            .total-row { 
+                background: #f0f0f0 !important; 
+                border-top: 2px solid #c0392b !important;
+            }
+            .total-label { color: #c0392b !important; }
+
+            .sector-name-text { color: #111 !important; }
+            .positive { color: #1a6b3a !important; }
+            .negative { color: #c0392b !important; }
+
+            .table-container { border: 1px solid #ccc !important; }
+
+            input[type="number"] { display: none !important; }
+            .print-val { display: inline !important; color: black !important; }
         }
 
         .print-val { display: none; }
