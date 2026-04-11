@@ -564,6 +564,12 @@
             line-height: 1.7;
         }
 
+        /* Format page par défaut (portrait, 2 ans) */
+        @page { size: A4 portrait; margin: 10mm; }
+
+        /* Format paysage uniquement pour le PDF 5 ans */
+        body.pdf-5ans @page { size: A4 landscape; margin: 8mm; }
+
         /* Print */
         @media print {
             #pin-screen, .actions, .charts-section, .help-section, .lock-btn, select, .note-btn, .note-row, .no-print, #install-banner { display: none !important; }
@@ -572,7 +578,7 @@
             #app { display: block !important; padding: 0 !important; background: white !important; }
 
             /* En-tête rouge avec titre blanc bien visible */
-            .header { 
+            .header {
                 background: #c0392b !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
@@ -580,13 +586,38 @@
                 padding: 16px !important;
                 margin-bottom: 12px !important;
             }
-            .header h1 { 
-                color: white !important; 
+            .header h1 {
+                color: white !important;
                 font-size: 22px !important;
+                margin: 0 0 4px 0 !important;
                 -webkit-print-color-adjust: exact;
             }
-            .header p, #periode-label { color: rgba(255,255,255,0.85) !important; }
-            .header-right { display: none !important; }
+            .header p, #periode-label {
+                color: white !important;
+                font-size: 13px !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                text-decoration: none !important;
+                background: transparent !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            /* Masquer totalement le sélecteur et le bouton — évite l'artefact noir */
+            .header-right,
+            .header-right *,
+            select,
+            .year-selector,
+            .lock-btn {
+                display: none !important;
+                visibility: hidden !important;
+                width: 0 !important;
+                height: 0 !important;
+                overflow: hidden !important;
+                border: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
 
             /* KPI cards */
             .kpi-row { display: grid !important; grid-template-columns: repeat(3,1fr) !important; gap: 8px !important; margin-bottom: 12px !important; }
@@ -597,9 +628,9 @@
             .kpi-value.pos { color: #1a6b3a !important; }
             .kpi-value.neg { color: #c0392b !important; }
 
-            /* Tableau */
+            /* Tableau standard (2 ans) */
             .table-container { border: 1px solid #ccc !important; border-radius: 8px !important; background: white !important; }
-            .grid-header { 
+            .grid-header {
                 background: #c0392b !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
@@ -612,7 +643,7 @@
             .positive { color: #1a6b3a !important; }
             .negative { color: #c0392b !important; }
 
-            .total-row { 
+            .total-row {
                 background: #f0f0f0 !important;
                 -webkit-print-color-adjust: exact;
                 border-top: 2px solid #c0392b !important;
@@ -621,7 +652,72 @@
 
             input[type="number"] { display: none !important; }
             .print-val { display: inline !important; color: black !important; }
+
+            /* ===== MODE PDF 5 ANS ===== */
+            body.pdf-5ans .kpi-row { display: none !important; }
+            body.pdf-5ans .table-container { display: none !important; }
+            body.pdf-5ans #pdf-5ans { display: block !important; }
+
+            #pdf-5ans .p5-title {
+                font-family: 'Impact', 'Arial Black', sans-serif;
+                font-size: 15px;
+                color: #c0392b !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                margin-bottom: 10px;
+                border-bottom: 2.5px solid #c0392b;
+                padding-bottom: 5px;
+            }
+            #pdf-5ans table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 11px;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            #pdf-5ans th {
+                background: #c0392b !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                padding: 7px 8px;
+                text-align: center;
+                border: 1px solid #a93226;
+                font-family: 'Impact', 'Arial Black', Arial, sans-serif;
+                font-size: 12px;
+                letter-spacing: 0.8px;
+            }
+            #pdf-5ans th.col-secteur { text-align: left; padding-left: 10px; min-width: 150px; }
+            #pdf-5ans td {
+                padding: 6px 8px;
+                border: 1px solid #ccc;
+                text-align: right;
+                color: #111 !important;
+                background: white !important;
+                font-size: 11px;
+            }
+            #pdf-5ans tr:nth-child(even) td { background: #f5f5f5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            #pdf-5ans td.col-secteur { text-align: left; font-weight: 600; padding-left: 10px; color: #222 !important; }
+            #pdf-5ans tr.total-5ans td {
+                background: #ffe8e6 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                font-weight: bold;
+                font-size: 11.5px;
+                border-top: 2.5px solid #c0392b;
+                color: #111 !important;
+                padding: 7px 8px;
+            }
+            #pdf-5ans tr.total-5ans td:first-child {
+                color: #c0392b !important;
+                font-size: 12px;
+                letter-spacing: 0.5px;
+            }
         }
+
+        /* Élément PDF 5 ans invisible par défaut */
+        #pdf-5ans { display: none; }
 
         .print-val { display: none; }
 
@@ -706,11 +802,7 @@
         </div>
         <div class="header-right">
             <select id="selectYear" class="year-selector no-print" onchange="changerPeriode()">
-                <option value="2026">2025 – 2026</option>
-                <option value="2027">2026 – 2027</option>
-                <option value="2028">2027 – 2028</option>
-                <option value="2029">2028 – 2029</option>
-                <option value="2030">2029 – 2030</option>
+                <!-- Options générées dynamiquement par genererSelecteurAnnees() -->
             </select>
             <button class="lock-btn no-print" onclick="verrouiller()" title="Verrouiller">🔒</button>
         </div>
@@ -751,10 +843,20 @@
         </div>
     </div>
 
+    <!-- Tableau 5 ans (affiché uniquement lors du PDF 5 ans) -->
+    <div id="pdf-5ans">
+        <div class="p5-title" id="pdf-5ans-title">📊 Récapitulatif Trésorerie — Toutes les périodes</div>
+        <table id="pdf-5ans-table">
+            <thead><tr id="pdf-5ans-head"></tr></thead>
+            <tbody id="pdf-5ans-body"></tbody>
+            <tfoot><tr class="total-5ans" id="pdf-5ans-foot"></tr></tfoot>
+        </table>
+    </div>
+
     <!-- Actions -->
     <div class="actions no-print">
         <button class="btn btn-save" onclick="sauvegarderLocal()">💾 SAUVEGARDER</button>
-        <button class="btn btn-pdf" onclick="window.print()">📄 PDF / Imprimer</button>
+        <button class="btn btn-pdf" onclick="genererPDF5Ans()">📄 PDF 5 ANS</button>
         <button class="btn btn-excel" onclick="exporterExcel()">📊 Export CSV</button>
         <button class="btn btn-backup" onclick="exporterSauvegardeGenerale()">📤 Sauvegarde .json</button>
         <button class="btn btn-import" onclick="document.getElementById('fileInput').click()">📥 Importer</button>
@@ -794,6 +896,26 @@ let baseDonnees   = JSON.parse(localStorage.getItem('pompier_db_v5'))   || {};
 let nomsSecteurs  = JSON.parse(localStorage.getItem('pompier_noms_v5')) || [...DEFAULT_SECTEURS];
 let notesSecteurs = JSON.parse(localStorage.getItem('pompier_notes_v5'))|| {};
 let chartTotal, chartSecteurs;
+
+// ============================================================
+//  SÉCURITÉ — CONSTANTES ET UTILITAIRES
+// ============================================================
+const MAX_TENTATIVES_PIN    = 5;
+const DUREE_BLOCAGE_MS      = 30 * 1000;      // 30 secondes
+const TIMEOUT_INACTIVITE_MS = 5 * 60 * 1000; // 5 minutes
+let tentativesEchouees = 0;
+let timerVerrouillage  = null;
+
+// Hachage SHA-256 via l'API Web Crypto (disponible sur tous navigateurs modernes)
+async function sha256(texte) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(texte));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+// Détecte si une valeur est encore en clair (PIN = 6 chiffres, phrase = <64 chars)
+function estPlainText(valeur) {
+    return valeur.length < 64;
+}
 
 // ============================================================
 //  SYSTÈME PIN
@@ -851,28 +973,109 @@ function touchePin(val) {
     }
 }
 
-function verifierPin() {
-    const pinStocke = localStorage.getItem('pompier_pin');
-    if (pinSaisi === pinStocke) {
-        ouvrirApp();
-    } else {
+async function verifierPin() {
+    const err = document.getElementById('pin-error');
+
+    // Vérifier si l'accès est bloqué
+    const blocageJusquA = parseInt(localStorage.getItem('pompier_blocage') || '0');
+    if (Date.now() < blocageJusquA) {
+        const restant = Math.ceil((blocageJusquA - Date.now()) / 1000);
+        err.textContent = `⏳ Trop de tentatives. Réessayez dans ${restant}s.`;
         pinSaisi = '';
         afficherPoints();
-        const err = document.getElementById('pin-error');
-        err.textContent = '❌ Code incorrect, réessayez.';
+        return;
+    }
+
+    const pinStocke = localStorage.getItem('pompier_pin');
+    let correspond = false;
+
+    if (estPlainText(pinStocke)) {
+        // Ancien PIN en clair : comparaison directe puis migration automatique vers hash
+        correspond = (pinSaisi === pinStocke);
+        if (correspond) {
+            localStorage.setItem('pompier_pin', await sha256(pinSaisi));
+        }
+    } else {
+        // PIN déjà haché
+        correspond = ((await sha256(pinSaisi)) === pinStocke);
+    }
+
+    if (correspond) {
+        tentativesEchouees = 0;
+        localStorage.removeItem('pompier_blocage');
+        ouvrirApp();
+    } else {
+        tentativesEchouees++;
+        pinSaisi = '';
+        afficherPoints();
+        if (tentativesEchouees >= MAX_TENTATIVES_PIN) {
+            localStorage.setItem('pompier_blocage', (Date.now() + DUREE_BLOCAGE_MS).toString());
+            tentativesEchouees = 0;
+            err.textContent = `🔒 ${MAX_TENTATIVES_PIN} erreurs. Accès bloqué 30 secondes.`;
+        } else {
+            const restant = MAX_TENTATIVES_PIN - tentativesEchouees;
+            err.textContent = `❌ Code incorrect. ${restant} tentative${restant > 1 ? 's' : ''} restante${restant > 1 ? 's' : ''}.`;
+        }
         err.style.animation = 'none';
         void err.offsetWidth;
         err.style.animation = 'shake 0.3s';
     }
 }
 
+// ============================================================
+//  SÉLECTEUR D'ANNÉES DYNAMIQUE
+//  Génère automatiquement les périodes de 2025-2026 jusqu'à
+//  l'année courante + 3 ans. Aucune intervention nécessaire.
+// ============================================================
+function genererSelecteurAnnees() {
+    const sel = document.getElementById('selectYear');
+    const anneeActuelle = new Date().getFullYear();
+    // Première période : 2025-2026 (valeur 2026)
+    const anneeMin = 2026;
+    // Toujours 3 ans dans le futur, minimum 2030
+    const anneeMax = Math.max(2030, anneeActuelle + 3);
+
+    sel.innerHTML = '';
+    for (let a = anneeMin; a <= anneeMax; a++) {
+        const opt = document.createElement('option');
+        opt.value = a;
+        opt.textContent = `${a - 1} – ${a}`;
+        sel.appendChild(opt);
+    }
+
+    // Sélectionner la période courante par défaut
+    const anneeDefaut = Math.min(Math.max(anneeActuelle, anneeMin), anneeMax);
+    sel.value = anneeDefaut;
+}
+
+// Réinitialise le compte à rebours d'inactivité à chaque interaction
+function reinitialiserTimerInactivite() {
+    clearTimeout(timerVerrouillage);
+    timerVerrouillage = setTimeout(() => {
+        verrouiller();
+        const err = document.getElementById('pin-error');
+        if (err) err.textContent = '🔒 Session expirée après 5 min d\'inactivité.';
+    }, TIMEOUT_INACTIVITE_MS);
+}
+
 function ouvrirApp() {
     document.getElementById('pin-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
+    genererSelecteurAnnees();
     afficherTableau();
+    // Démarrer la surveillance d'inactivité
+    reinitialiserTimerInactivite();
+    ['click', 'keydown', 'touchstart', 'mousemove'].forEach(evt =>
+        document.addEventListener(evt, reinitialiserTimerInactivite, { passive: true })
+    );
 }
 
 function verrouiller() {
+    // Arrêter le timer et retirer les écouteurs
+    clearTimeout(timerVerrouillage);
+    ['click', 'keydown', 'touchstart', 'mousemove'].forEach(evt =>
+        document.removeEventListener(evt, reinitialiserTimerInactivite)
+    );
     pinSaisi = '';
     document.getElementById('pin-screen').style.display = 'flex';
     document.getElementById('app').style.display = 'none';
@@ -881,7 +1084,7 @@ function verrouiller() {
 }
 
 // Création PIN
-function creerPin() {
+async function creerPin() {
     const pin1   = document.getElementById('setup-pin').value.trim();
     const pin2   = document.getElementById('setup-pin-confirm').value.trim();
     const phrase = document.getElementById('setup-phrase').value.trim();
@@ -891,8 +1094,9 @@ function creerPin() {
     if (pin1 !== pin2)                 { err.textContent = '❌ Les deux PIN ne correspondent pas.'; return; }
     if (phrase.length < 4)             { err.textContent = '❌ La phrase de sécurité est trop courte (min. 4 caractères).'; return; }
 
-    localStorage.setItem('pompier_pin', pin1);
-    localStorage.setItem('pompier_phrase', phrase);
+    // Stockage haché — jamais en clair
+    localStorage.setItem('pompier_pin',    await sha256(pin1));
+    localStorage.setItem('pompier_phrase', await sha256(phrase.toLowerCase().trim()));
     document.getElementById('modal-setup').classList.add('hidden');
     ouvrirApp();
 }
@@ -909,10 +1113,22 @@ function fermerModals() {
     document.getElementById('modal-newpin').classList.add('hidden');
 }
 
-function verifierPhrase() {
+async function verifierPhrase() {
     const phraseStockee = localStorage.getItem('pompier_phrase') || '';
     const saisie = document.getElementById('recovery-phrase').value.trim();
-    if (saisie === phraseStockee) {
+    let correspond = false;
+
+    if (estPlainText(phraseStockee)) {
+        // Ancienne phrase en clair : comparaison directe puis migration
+        correspond = (saisie === phraseStockee);
+        if (correspond) {
+            localStorage.setItem('pompier_phrase', await sha256(saisie.toLowerCase().trim()));
+        }
+    } else {
+        correspond = ((await sha256(saisie.toLowerCase().trim())) === phraseStockee);
+    }
+
+    if (correspond) {
         document.getElementById('modal-recovery').classList.add('hidden');
         document.getElementById('modal-newpin').classList.remove('hidden');
         document.getElementById('newpin-error').textContent = '';
@@ -923,13 +1139,13 @@ function verifierPhrase() {
     }
 }
 
-function sauvegarderNouveauPin() {
+async function sauvegarderNouveauPin() {
     const p1  = document.getElementById('newpin-val').value.trim();
     const p2  = document.getElementById('newpin-confirm').value.trim();
     const err = document.getElementById('newpin-error');
     if (!/^\d{6}$/.test(p1)) { err.textContent = '❌ Le PIN doit contenir exactement 6 chiffres.'; return; }
     if (p1 !== p2)            { err.textContent = '❌ Les PIN ne correspondent pas.'; return; }
-    localStorage.setItem('pompier_pin', p1);
+    localStorage.setItem('pompier_pin', await sha256(p1));
     document.getElementById('modal-newpin').classList.add('hidden');
     pinSaisi = '';
     afficherPoints();
@@ -1089,6 +1305,62 @@ function calculerTotaux(dN1, dN, anneeN) {
     kpiEvol.className   = 'kpi-value ' + (classeEvol === 'positive' ? 'pos' : classeEvol === 'negative' ? 'neg' : '');
 
     genererGraphiques(tN1, tN, baseDonnees[anneeN] || [], anneeN);
+}
+
+// ============================================================
+//  PDF 5 ANS
+// ============================================================
+function genererPDF5Ans() {
+    // Années déduites dynamiquement depuis le sélecteur (aucune limite codée en dur)
+    const sel = document.getElementById('selectYear');
+    const opts = Array.from(sel.options);
+    const premierN = parseInt(opts[0].value);         // ex. 2026
+    const dernierN  = parseInt(opts[opts.length - 1].value); // ex. 2034
+    const annees = [];
+    for (let a = premierN - 1; a <= dernierN; a++) annees.push(a.toString());
+
+    // Mettre à jour le titre du tableau
+    const titre = document.getElementById('pdf-5ans-title');
+    if (titre) titre.textContent = `📊 Récapitulatif Trésorerie — ${premierN - 1} – ${dernierN}`;
+
+    // --- Entête du tableau ---
+    const head = document.getElementById('pdf-5ans-head');
+    head.innerHTML = '<th class="col-secteur">Secteur</th>' +
+        annees.map(a => `<th>${a}</th>`).join('');
+
+    // --- Corps du tableau ---
+    const body = document.getElementById('pdf-5ans-body');
+    body.innerHTML = '';
+
+    const totaux = annees.map(() => 0);
+
+    nomsSecteurs.forEach((nom, idx) => {
+        const tr = document.createElement('tr');
+        let cells = `<td class="col-secteur">${escHtml(nom)}</td>`;
+        annees.forEach((a, ai) => {
+            const v = (baseDonnees[a] && baseDonnees[a][idx]) ? baseDonnees[a][idx] : 0;
+            totaux[ai] += v;
+            cells += `<td>${v > 0 ? v.toFixed(2) + ' €' : '—'}</td>`;
+        });
+        tr.innerHTML = cells;
+        body.appendChild(tr);
+    });
+
+    // --- Ligne totaux ---
+    const foot = document.getElementById('pdf-5ans-foot');
+    foot.innerHTML = '<td class="col-secteur" style="color:#c0392b;font-weight:bold">TOTAL GÉNÉRAL</td>' +
+        totaux.map(t => `<td>${t.toFixed(2)} €</td>`).join('');
+
+    // --- Lancement impression ---
+    document.body.classList.add('pdf-5ans');
+
+    const nettoyage = () => {
+        document.body.classList.remove('pdf-5ans');
+        window.removeEventListener('afterprint', nettoyage);
+    };
+    window.addEventListener('afterprint', nettoyage);
+
+    window.print();
 }
 
 // ============================================================
